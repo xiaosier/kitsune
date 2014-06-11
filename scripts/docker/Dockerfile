@@ -17,6 +17,7 @@ WORKDIR /kitsune
 
 # ...also copy critical build files for build time.
 COPY package.json /kitsune/package.json
+COPY compiled.txt /kitsune/requirements/compiled.txt
 
 RUN pwd
 RUN ls /kitsune -la
@@ -26,6 +27,8 @@ RUN npm install
 
 # Install Python deps
 # TODO
+RUN apt-get install -y libmysqlclient-dev libxml2-dev libxslt1-dev zlib1g-dev libjpeg-dev python-pip
+RUN pip install -r /kitsune/requirements/compiled.txt
 
 # This will always be run.
 ENTRYPOINT ["/kitsune/manage.py"]

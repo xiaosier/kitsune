@@ -18,3 +18,5 @@ docs/_build
 *.less.css
 .DS_Store
 james.ini
+scripts/docker/package.json
+scripts/docker/compiled.txt

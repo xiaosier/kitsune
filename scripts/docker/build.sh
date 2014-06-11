@@ -15,6 +15,7 @@ fi
 
 echo "LINKING"
 ln -f "$KITSUNE_DIR/package.json" "$KDOCKER_DIR"
+ln -f "$KITSUNE_DIR/requirements/compiled.txt" "$KDOCKER_DIR"
 
 echo "BUILDING"
 docker build -t local/kitsune "$KDOCKER_DIR"
