@@ -14,4 +14,4 @@ if ! which docker 2>/dev/null >&2; then
 fi
 
 echo "RUNNING"
-docker run -v "${KITSUNE_DIR}":/kitsune local/kitsune "$@"
+docker run -tiv "${KITSUNE_DIR}":/kitsune local/kitsune "$@"
