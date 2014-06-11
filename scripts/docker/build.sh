@@ -3,8 +3,8 @@
 set -u
 set -e
 
-KDOCKER_DIR=$(dirname $(readlink -f "$0"))
-KITSUNE_DIR=$(readlink -f "$KDOCKER_DIR/../..")
+KDOCKER_DIR=$(dirname $(realpath "$0"))
+KITSUNE_DIR=$(realpath "$KDOCKER_DIR/../..")
 
 # Check for docker
 if ! which docker 2>/dev/null >&2; then
@@ -14,6 +14,4 @@ if ! which docker 2>/dev/null >&2; then
 fi
 
 echo "BUILDING"
-docker build -t $(whoami)/kitsune "$KDOCKER_DIR"
-echo "RUNNING"
-docker run -v "${KITSUNE_DIR}":/kitsune $(whoami)/kitsune "$@"
+docker build -t local/kitsune "$KITSUNE_DIR"
