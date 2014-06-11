@@ -26,5 +26,7 @@ RUN npm install
 # Install Python deps
 RUN pip install -r requirements/compiled.txt
 
+EXPOSE 8000
+
 # These are the default command to run, but it can be overwritten.
 CMD ["/kitsune/manage.py", "runserver"]
