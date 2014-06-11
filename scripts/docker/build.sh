@@ -13,5 +13,8 @@ if ! which docker 2>/dev/null >&2; then
     exit 1
 fi
 
+echo "LINKING"
+ln -f "$KITSUNE_DIR/package.json" "$KDOCKER_DIR"
+
 echo "BUILDING"
-docker build -t local/kitsune "$KITSUNE_DIR"
+docker build -t local/kitsune "$KDOCKER_DIR"
