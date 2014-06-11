@@ -14,8 +14,10 @@ if ! which docker 2>/dev/null >&2; then
 fi
 
 echo "LINKING"
-ln -f "$KITSUNE_DIR/package.json" "$KDOCKER_DIR"
-ln -f "$KITSUNE_DIR/requirements/compiled.txt" "$KDOCKER_DIR"
+mkdir -p "$KDOCKER_DIR/context/requirements/"
+cp -a "$KDOCKER_DIR/Dockerfile" "$KDOCKER_DIR/context/"
+cp -a "$KITSUNE_DIR/package.json" "$KDOCKER_DIR/context/"
+cp -a "$KITSUNE_DIR/requirements/compiled.txt" "$KDOCKER_DIR/context/requirements/"
 
 echo "BUILDING"
-docker build -t local/kitsune "$KDOCKER_DIR"
+docker build -t local/kitsune "$KDOCKER_DIR/context/"
