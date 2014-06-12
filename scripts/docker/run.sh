@@ -13,5 +13,26 @@ if ! which docker 2>/dev/null >&2; then
     exit 1
 fi
 
-echo "RUNNING"
-docker run -tiP --volume "${KITSUNE_DIR}":/kitsune local/kitsune "$@"
+# MariaDB
+if docker inspect mariadb >/dev/null; then
+    docker start mariadb > /dev/null
+else
+    docker run --detach --name mariadb tutum/mariadb:5.5
+fi
+
+# Kitsune
+if docker inspect kitsune >/dev/null; then
+    docker start kitsune > /dev/null
+else
+    docker run \
+        --detach \
+        --publish-all=true \
+        --volume "${KITSUNE_DIR}":/kitsune \
+        --name kitsune \
+        --link mariadb:mariadb \
+        local/kitsune
+fi
+
+BIND=$(docker port kitsune 8000)
+echo "Kitsune is running on $BIND"
+docker attach kitsune
