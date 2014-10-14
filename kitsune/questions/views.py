@@ -97,7 +97,7 @@ FILTER_GROUPS = {
 
 ORDER_BY = OrderedDict([
     ('updated', ('updated', _lazy('Updated'))),
-    ('views', ('visits', _lazy('Views'))),
+    ('views', ('questionvisits__visits', _lazy('Views'))),
     ('votes', ('num_votes_past_week', _lazy('Votes'))),
     ('replies', ('num_answers', _lazy('Replies'))),
 ])
