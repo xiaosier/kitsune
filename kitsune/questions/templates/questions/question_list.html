@@ -3,14 +3,6 @@
 
 {% set classes = 'questions' %}
 
-{% if offtopic %}
-  {% set classes = classes + ' show-offtopic' %}
-{% endif %}
-
-{% if escalated %}
-  {% set classes = classes + ' show-escalated' %}
-{% endif %}
-
 {% if all_products %}
   {% set product_title = _('All Products') %}
 {% elif multiple_products %}
@@ -119,16 +111,6 @@
   <div id="filter-section">
     <div class="container_12 cf">
       <div class="grid_12">
-        <div id="filters" class="cf">
-          <div id="flag-filter">
-            <div>
-              <label><input data-url="{{ questions_url(escalated=0 if escalated else 1, page=None) }}" type="checkbox" {% if escalated %}checked="checked"{% endif %}> {{ _('Escalated') }}</label>
-            </div>
-            <div>
-              <label><input data-url="{{ questions_url(offtopic=0 if offtopic else 1, page=None) }}" type="checkbox" {% if offtopic %}checked="checked"{% endif %}> {{ _('Off-topic') }}</label>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -138,7 +120,7 @@
       {% if questions.object_list %}
         <article class="questions">
           {% for question in questions.object_list %}
-            <section id="question-{{ question.id }}" class="cf{% if question.is_escalated %} escalated{% endif %}{% if question.is_offtopic %} offtopic{% endif %}">
+            <section id="question-{{ question.id }}" class="cf">
               <div class="question-meta {% if not question.num_answers %}urgent{% endif %}">
                 <div class="replies">
                   <h4>{{ question.num_answers }}</h4>
@@ -186,7 +168,9 @@
     <div class="grid_3">
       <div class="sidebar-header">{{ _('Filter by') }}</div>
       <ul class="sidebar-nav">
-        <li {{ filter|class_selected(None) }}><a href="{{ questions_url(filter=None, page=None) }}">{{ _('All') }}</a></li>
+        <li {% if filter == None and offtopic==None and escalated == None %}class="selected"{% endif %}><a href="{{ questions_url(filter=None, page=None) }}">{{ _('All') }}</a></li>
+        <li {% if filter == None and escalated %}class="selected"{% endif %}><a href="{{ questions_url(escalated=1, offtopic=None, filter=None, page=None) }}">{{ _('Escalated') }}</a></li>
+        <li {% if filter == None and offtopic and escalated == None %}class="selected"{% endif %}><a href="{{ questions_url(offtopic=1, escalated=None, filter=None, page=None) }}">{{ _('Off-topic') }}</a></li>
         {% for f, desc in filters.iteritems() %}
           <li {{ filter|class_selected(f) }}><a href="{{ questions_url(filter=f, page=None) }}">{{ desc }}</a></li>
         {% endfor %}
